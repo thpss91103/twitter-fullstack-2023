@@ -7,16 +7,12 @@ module.exports = sequelize => {
       //* 回覆屬於tweet和user
       Reply.belongsTo(models.Tweet, { foreignKey: 'tweetId' })
       Reply.belongsTo(models.User, { foreignKey: 'userId' })
-      //* 回覆
-      Reply.hasMany(models.Reply, { foreignKey: 'tweetId' })
-      //* 喜歡
-      Reply.hasMany(models.Like, { foreignKey: 'tweetId' })
     }
   }
   Reply.init(
     {
-      user_id: DataTypes.INTEGER,
-      tweet_id: DataTypes.INTEGER,
+      userId: DataTypes.INTEGER,
+      tweetId: DataTypes.INTEGER,
       comment: DataTypes.TEXT
     },
     {

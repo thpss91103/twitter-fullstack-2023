@@ -10,13 +10,6 @@ module.exports = sequelize => {
       User.hasMany(models.Reply, { foreignKey: 'userId' })
       //* likes
       User.hasMany(models.Like, { foreignKey: 'userId' })
-      //? 多對多的關聯 不是應該用以下 然後再USER和TWEET建立嗎...
-      // User.belongsToMany(models.Tweet, {
-      //   foreignKey: 'userId',
-      //   through: models.Like,
-      //   as: 'LikedTweets'
-      // })
-
       //* follow
       User.belongsToMany(User, {
         through: models.Followship,
