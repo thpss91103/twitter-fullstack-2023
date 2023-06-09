@@ -2,6 +2,7 @@
 const faker = require('faker')
 module.exports = {
   up: async (queryInterface, Sequelize) => {
+    // 身分是user的用戶id取出來
     const users = await queryInterface.sequelize.query(
       'SELECT id FROM Users WHERE role = "user"',
       {
