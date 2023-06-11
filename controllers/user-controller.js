@@ -1,6 +1,6 @@
 const bcrypt = require('bcryptjs')
 const { Op } = require('sequelize')
-const { User } = require('../models')
+const { User, Followship } = require('../models')
 const userController = {
   signUpPage: (req, res) => {
     res.render('signup')
@@ -50,11 +50,37 @@ const userController = {
 
   signIn: (req, res) => {
     req.flash('success_messages', '成功登入！')
-    res.send('Success')},
+    res.send('Success')
+  },
 
   getOther: (req, res) => {
     res.render('other-tweets')
-
+  },
+  addFollowing: async (req, res, next) => {
+    try {
+      const user = await User.findByPk(req.user.id)
+      if (!user) throw new Error('找不到該用戶')
+      return Followship.create({
+        followerId: req.user.id,
+        followingId: req.params.userId
+      })
+    } catch (err) {
+      next(err)
+    }
+  },
+  removeFollowing: async (req, res, next) => {
+    try {
+      const user = await User.findByPk(req.user.id)
+      if (!user) throw new Error('找不到該用戶')
+      const followShip = await Followship.findOne({
+        where: { followerId: req.user.id, followingId: req.params.userId }
+      })
+      if (!followShip) throw new Error('還沒有追蹤用戶')
+      await followShip.destroy()
+      return res.redirect('back')
+    } catch (err) {
+      next(err)
+    }
   }
 }
 module.exports = userController

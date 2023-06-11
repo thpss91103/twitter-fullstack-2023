@@ -12,9 +12,23 @@ router.use('/admin', admin)
 router.get('/signup', userController.signUpPage)
 router.post('/signup', userController.signUp)
 router.get('/signin', userController.signInPage)
-router.post('/signin', passport.authenticate('local', { failureRedirect: '/signin', failureFlash: true }), userController.signIn)
-router.use('/', authenticated, generalErrorHandler)
+router.post(
+  '/signin',
+  passport.authenticate('local', {
+    failureRedirect: '/signin',
+    failureFlash: true
+  }),
+  userController.signIn
+)
 
+//* 追蹤功能
+router.post('/followships/:userId', authenticated, userController.addFollowing)
+router.delete(
+  '/followships/:userId',
+  authenticated,
+  userController.removeFollowing
+)
+router.use('/', authenticated, generalErrorHandler)
 router.get('/user', userController.getOther)
 
 router.get('/tweets', tweetController.getTweets)
