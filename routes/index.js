@@ -28,6 +28,8 @@ router.delete(
   authenticated,
   userController.removeFollowing
 )
+router.post('/tweets/:id/like', authenticated, userController.addLike)
+router.delete('/tweets/:id/unlike', authenticated, userController.removeLike)
 router.use('/', authenticated, generalErrorHandler)
 router.get('/user', userController.getOther)
 
