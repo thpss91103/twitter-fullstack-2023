@@ -56,18 +56,10 @@ const userController = {
       next(err)
     }
   },
-  getOther: (req, res) => {
-    res.render('other-tweets')
-  },
   logout: (req, res) => {
     req.flash('success_messages', '登出成功！')
     req.logout()
     res.redirect('/signin')
-  },
-
-  signIn: (req, res) => {
-    req.flash('success_messages', '成功登入！')
-    res.send('Success')
   },
 
   getOther: (req, res) => {
