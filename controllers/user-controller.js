@@ -64,6 +64,7 @@ const userController = {
     res.redirect('/signin')
   },
   getUser: async (req, res, next) => {
+    const userTweet = true
     const { id } = req.params
     try {
       const [user, FollowingsCount, FollowersCount, tweetsCount] =
@@ -94,7 +95,7 @@ const userController = {
         FollowersCount,
         tweetsCount
       }
-      return res.render('self-tweets', { user: userData })
+      return res.render('self-tweets', { user: userData, userTweet })
     } catch (err) {
       next(err)
     }
