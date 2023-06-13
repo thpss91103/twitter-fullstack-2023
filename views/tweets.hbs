@@ -9,8 +9,12 @@
   <div class="d-flex flex-column mt-3">
     <div class="form-row d-flex flex-row mb-3" style="display:inline-block">
       <div class="user-avatar">
-        <img src="{{user.avatar}}" width="50px" ;height="50px"
-          style="display:inline-block;border-radius:100%;border:2px black solid;margin:auto 8px auto 24px" alt="avatar">
+        <button
+          onclick="event.stopPropagation(); event.preventDefault(); window.location.href='/users/{{user.id}}/tweets' ;" class="avatar-button">
+          <img src="{{user.avatar}}" width="50px" ;height="50px"
+            style="display:inline-block;border-radius:100%;border:2px black solid;margin:auto 8px auto 24px"
+            alt="avatar">
+        </button>
       </div>
       <textarea class="form-control" id="description" style="border:none;padding:0px;resize: none" name="description"
         rows="2" cols="20" maxlength:"140" minlength:"1" placeholder="有什麼新鮮事?"></textarea>
@@ -25,7 +29,10 @@
   <div class="tweets d-flex flex-row">
     <a style=" text-decoration:none" class="link-to-replies" href="/tweets/{{this.id}}/replies" style="z-index:0">
       <div class="tweet-left m-2">
-        <img class="rounded-circle" src="{{this.User.avatar}}" alt="avatar" title="avatar" width="50px" height="50px">
+        <button
+          onclick="event.stopPropagation(); event.preventDefault(); window.location.href='/users/{{this.User.id}}/tweets' ;" class="avatar-button">
+          <img class="rounded-circle" src="{{this.User.avatar}}" alt="avatar" title="avatar" width="50px" height="50px">
+        </button>
       </div>
       <div class="tweet-right m-2 d-flex flex-column">
         <div class="tweets-info">

@@ -525,6 +525,7 @@ img.card-avatar {
   width: 178px;
   display: flex;
 }
+
 .nav-item img {
   margin: 18.78px 0 0 16.9px;
   height: 20.25px;
@@ -861,4 +862,9 @@ img.card-avatar {
 .main-page {
   border-left: 1px solid #E6ECF0;
   border-right: 1px solid #E6ECF0;
+}
+
+.avatar-button {
+  border: none;
+  background-color: #FFFFFF;
 }

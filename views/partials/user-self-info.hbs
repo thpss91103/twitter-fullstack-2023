@@ -1,5 +1,7 @@
 <div class="header">
-  <a href=""><img src="https://i.postimg.cc/QxZdg4vB/Vector.png" alt="" class="arrow-left"></a>
+  <a href='/tweets'>
+    <img src="https://i.postimg.cc/QxZdg4vB/Vector.png" alt="" class="arrow-left">
+  </a>
   <div class="header-user">
     <h5>{{user.name}}</h5>
     <p>{{user.tweetsCount}} 推文</p>
@@ -8,7 +10,11 @@
 <div class="user-main-body">
   <img src="{{user.cover}}" class="banner" alt="cover" />
   <div class="d-flex justify-content-between user-banner">
-    <img class="avatar ms-3" src="{{user.avatar}}">
+    <button
+      onclick="event.stopPropagation(); event.preventDefault(); window.location.href='/users/{{user.id}}/tweets' ;"
+      class="avatar-button">
+      <img class="avatar ms-3" src="{{user.avatar}}">
+    </button>
     <div class="btns" id="data-panel">
       <!-- todo 下面新增觸發編輯的MODAL，API : /api/users/:id/profile-->
       <button class="btn-outline m-3" data-bs-toggle="modal" data-bs-target="#editModal">編輯個人資料</button>

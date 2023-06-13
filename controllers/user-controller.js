@@ -65,9 +65,6 @@ const userController = {
   },
   getUser: async (req, res, next) => {
     const { id } = req.params
-    const loginUser = helpers.getUser(req)
-    if (loginUser.id !== Number(id)) throw new Error('您沒有權限查看此個人資料')
-
     try {
       const [user, FollowingsCount, FollowersCount, tweetsCount] =
         await Promise.all([
