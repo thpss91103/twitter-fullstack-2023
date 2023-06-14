@@ -109,6 +109,7 @@ const userController = {
   //* 追蹤功能
   addFollowing: async (req, res, next) => {
     try {
+      if (req.user.id == req.params.userId) throw new Error('不能追蹤自己')
       const user = await User.findByPk(req.user.id)
       if (!user) throw new Error('找不到該用戶')
       await Followship.create({
@@ -136,6 +137,7 @@ const userController = {
   },
   //* Like tweet
   addLike: async (req, res, next) => {
+    console.log('like')
     try {
       const tweet = await Tweet.findByPk(req.user.id)
       if (!tweet) throw new Error('找不到該篇推文')
@@ -146,6 +148,7 @@ const userController = {
     }
   },
   removeLike: async (req, res, next) => {
+    console.log('unlike')
     try {
       const like = await Like.findOne({
         where: { userId: req.user.id, tweetId: req.params.id }
