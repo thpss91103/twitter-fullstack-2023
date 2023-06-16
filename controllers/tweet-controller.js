@@ -50,7 +50,8 @@ const tweetController = {
         tweets,
         topFollowers: top10Followers,
         tweetRoute,
-        userAvatar
+        userAvatar,
+        id
       })
     } catch (err) {
       next(err)
@@ -104,7 +105,7 @@ const tweetController = {
         userId,
         tweetId
       })
-      return res.redirect('back')
+      return res.redirect(`/tweets/${tweetId}/replies`)
     } catch (err) {
       next(err)
     }
