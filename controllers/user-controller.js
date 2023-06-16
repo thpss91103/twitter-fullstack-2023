@@ -502,6 +502,9 @@ const userController = {
           const ownerData = await User.findByPk(thisTweet.userId)
           const replyCount = await Reply.count({ where: { tweet_id: tweetId } })
           const likeCount = await Like.count({ where: { tweet_id: tweetId } })
+          const isLiked = await Like.findOne({
+            where: { tweet_id: tweetId, user_id: userId }
+          })
 
           like.name = ownerData.name
           like.account = ownerData.account
@@ -510,10 +513,13 @@ const userController = {
           like.description = thisTweet.description
           like.replyCount = replyCount
           like.likeCount = likeCount
+          like.isLiked = isLiked
 
           return like
         })
       )
+      // console.log(likes[10])
+
       const userData = {
         ...user.toJSON(),
         cover: user.cover || 'https://i.imgur.com/TGRK7uy.png',
