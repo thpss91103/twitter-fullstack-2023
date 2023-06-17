@@ -51,13 +51,9 @@ const userController = {
   signInPage: (req, res) => {
     res.render('signin')
   },
-  signIn: async (req, res, next) => {
-    try {
-      req.flash('success_messages', '成功登入！')
-      res.redirect('/tweets')
-    } catch (err) {
-      next(err)
-    }
+  signIn: (req, res) => {
+    req.flash('success_messages', '成功登入！')
+    res.redirect('/tweets')
   },
   logout: (req, res) => {
     req.flash('success_messages', '登出成功！')
@@ -144,6 +140,7 @@ const userController = {
         userTweets,
         topFollowers: top10Followers,
         userId
+
       })
     } catch (err) {
       next(err)
@@ -246,8 +243,7 @@ const userController = {
       //! 不能用自用錯誤處理..
       // if (req.user.id == followingId) throw new Error('不能追蹤自己')
 
-      if (userId == followingId)
-        return res.status(200).json({ error: '不能追蹤自己' })
+      if (userId == followingId) { return res.status(200).json({ error: '不能追蹤自己' }) }
 
       const user = await User.findByPk(userId)
 
@@ -319,7 +315,9 @@ const userController = {
       const user = await User.findByPk(id, {
         raw: true
       })
+      const userAvatar = user.avatar || 'https://i.imgur.com/mhXz6z9.png?1'
       if (!user) throw new Error('該用戶不存在!')
+
       return res.render('account-setting', { user, userRoute, userId })
     } catch (err) {
       next(err)
