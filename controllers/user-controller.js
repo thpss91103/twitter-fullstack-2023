@@ -110,7 +110,7 @@ const userController = {
               Like.count({ where: { tweet_id: tweetId } }),
               Tweet.findByPk(tweetId),
               User.findByPk(id),
-              Like.findOne({ where: { tweet_id: tweetId, user_id: id } })
+              Like.findOne({ where: { tweet_id: tweetId, user_id: userId } })
             ])
           tweet.repliesCount = replies
           tweet.likesCount = likes

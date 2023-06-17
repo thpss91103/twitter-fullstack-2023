@@ -8,7 +8,7 @@ const tweetController = {
     const id = req.user.id
     const userId = helpers.getUser(req).id
     try {
-      const user = await User.findByPk(req.user.id, { raw: true, nest: true })
+      const user = await User.findByPk(userId, { raw: true, nest: true })
       const userAvatar = user.avatar
       const tweets = await Tweet.findAll({
         group: 'Tweet.id',
