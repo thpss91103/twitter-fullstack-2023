@@ -280,18 +280,24 @@ const userController = {
   //* Like tweet
   addLike: async (req, res, next) => {
     try {
+      const userId = helpers.getUser(req).id
+      console.log(`userId:${userId}`)
       const tweet = await Tweet.findByPk(req.params.id)
       if (!tweet) throw new Error('找不到該篇推文')
-      await Like.create({ tweetId: req.params.id, userId: req.user.id })
+
+      await Like.create({ tweetId: req.params.id, userId })
       return res.redirect('back')
     } catch (err) {
       next(err)
     }
   },
   removeLike: async (req, res, next) => {
+    const userId = helpers.getUser(req).id
+    console.log(`userId:${userId}`)
+    console.log(`tweetId:${req.params.id}`)
     try {
       const like = await Like.findOne({
-        where: { userId: req.user.id, tweetId: req.params.id }
+        where: { user_id: userId, tweet_id: req.params.id }
       })
       like.destroy()
       return res.redirect('back')
@@ -472,6 +478,8 @@ const userController = {
     const userId = helpers.getUser(req).id
 
     try {
+      const originUser = await User.findByPk(userId)
+      const userAvatar = originUser.avatar
       const [user, FollowingsCount, FollowersCount, tweetsCount] =
         await Promise.all([
           User.findByPk(id, {
@@ -493,7 +501,7 @@ const userController = {
 
       const likes = await Like.findAll({
         raw: true,
-        where: { userId: id }
+        where: { user_id: id }
       })
       const likesData = await Promise.all(
         likes.map(async like => {
@@ -502,9 +510,11 @@ const userController = {
           const ownerData = await User.findByPk(thisTweet.userId)
           const replyCount = await Reply.count({ where: { tweet_id: tweetId } })
           const likeCount = await Like.count({ where: { tweet_id: tweetId } })
-          const isLiked = await Like.findOne({
-            where: { tweet_id: tweetId, user_id: userId }
-          })
+          const isLiked = Boolean(
+            await Like.findOne({
+              where: { tweet_id: tweetId, user_id: userId }
+            })
+          )
 
           like.name = ownerData.name
           like.account = ownerData.account
@@ -535,7 +545,8 @@ const userController = {
         userTweet,
         userLike,
         topFollowers: top10Followers,
-        userId
+        userId,
+        userAvatar
       })
     } catch (err) {
       next(err)
